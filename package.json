@@ -1,0 +1,17 @@
+{
+  "name": "customer-cli",
+  "version": "1.0.0",
+  "description": "A customer CMS implemented as a Node CLI",
+  "main": "index.js",
+  "preferGlobal": true,
+  "bin": "./commands.js",
+  "keywords": [],
+  "author": "Nicolás Rodríguez",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^9.1.0",
+    "dotenv": "^16.0.0",
+    "inquirer": "^8.2.2",
+    "mongoose": "^6.2.10"
+  }
+}
