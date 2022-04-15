@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { program } = require('commander');
+const { program, Option } = require('commander');
 const { prompt } = require('inquirer');
 const {
   addCustomer,
@@ -19,13 +19,18 @@ program
   .description('Customer Management System')
   .version('1.0.0');
 
+const debugOption = new Option('-d, --debug', 'display debugging information');
+
 // Add a new customer
 program
   .command('add')
   .alias('a')
   .description('Add a new customer')
-  .action(() => {
-    prompt(addCustomerQuestions).then(addCustomer);
+  .addOption(debugOption)
+  .action(({ debug }) => {
+    prompt(addCustomerQuestions).then((customer) =>
+      addCustomer(customer, debug)
+    );
   });
 
 // Find customers
@@ -33,18 +38,20 @@ program
   .command('find <name>')
   .alias('f')
   .description('Find customers by name')
-  .action(findCustomersByName);
+  .addOption(debugOption)
+  .action((name, { debug }) => findCustomersByName(name, debug));
 
 // Update a customer
 program
   .command('update <_id>')
   .alias('u')
   .description('Update a customer')
-  .action((_id) => {
+  .addOption(debugOption)
+  .action((_id, { debug }) => {
     prompt(updateCustomerQuestions).then((answers) => {
       const nonEmptyAnswers = filterEmpty(answers);
       if (Object.keys(nonEmptyAnswers).length > 0) {
-        updateCustomer(_id, answers);
+        updateCustomer(_id, answers, debug);
       } else {
         console.info('Customer not modified');
       }
@@ -56,13 +63,15 @@ program
   .command('remove <_id>')
   .alias('r')
   .description('Remove a customer')
-  .action(removeCustomer);
+  .addOption(debugOption)
+  .action((_id, { debug }) => removeCustomer(_id, debug));
 
 // List all customers
 program
   .command('list')
   .alias('l')
   .description('List all customers')
-  .action(listAllCustomers);
+  .addOption(debugOption)
+  .action(({ debug }) => listAllCustomers(debug));
 
 program.parse();

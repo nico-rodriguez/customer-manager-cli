@@ -6,11 +6,11 @@ const Customer = require('./models/customer.js');
 let dbConnection;
 
 // Add customer
-const addCustomer = (customer) => {
+const addCustomer = (customer, debug = false) => {
   connect(process.env.MONGO_URI)
     .then((connection) => {
       dbConnection = connection;
-      // console.log('Connected to database!');
+      debug && console.log('Connected to database!');
       return Customer.create(customer);
     })
     .then((customer) => {
@@ -20,18 +20,18 @@ const addCustomer = (customer) => {
       return dbConnection.disconnect();
     })
     .then(() => {
-      // console.info('Closed database connection');
+      debug && console.info('Closed database connection');
     })
     .catch(console.error);
 };
 
 // Find customers (case insensitive)
-const findCustomersByName = (name) => {
+const findCustomersByName = (name, debug = false) => {
   const search = new RegExp(name, 'i');
   connect(process.env.MONGO_URI)
     .then((connection) => {
       dbConnection = connection;
-      // console.log('Connected to database!');
+      debug && console.log('Connected to database!');
       return Customer.find({
         $or: [
           { firstname: { $regex: search } },
@@ -57,17 +57,17 @@ const findCustomersByName = (name) => {
       return dbConnection.disconnect();
     })
     .then(() => {
-      // console.info('Closed database connection');
+      debug && console.info('Closed database connection');
     })
     .catch(console.error);
 };
 
 // Update customer information
-const updateCustomer = (_id, update) => {
+const updateCustomer = (_id, update, debug = false) => {
   connect(process.env.MONGO_URI)
     .then((connection) => {
       dbConnection = connection;
-      // console.log('Connected to database!');
+      debug && console.log('Connected to database!');
       return Customer.findByIdAndUpdate(_id, update, { new: true });
     })
     .then((updatedCustomer) => {
@@ -77,17 +77,17 @@ const updateCustomer = (_id, update) => {
       return dbConnection.disconnect();
     })
     .then(() => {
-      // console.info('Closed database connection');
+      debug && console.info('Closed database connection');
     })
     .catch(console.error);
 };
 
 // Remove a customer
-const removeCustomer = (_id) => {
+const removeCustomer = (_id, debug = false) => {
   connect(process.env.MONGO_URI)
     .then((connection) => {
       dbConnection = connection;
-      // console.log('Connected to database!');
+      debug && console.log('Connected to database!');
       return Customer.findByIdAndDelete(_id);
     })
     .then((removedCustomer) => {
@@ -97,17 +97,17 @@ const removeCustomer = (_id) => {
       return dbConnection.disconnect();
     })
     .then(() => {
-      // console.info('Closed database connection');
+      debug && console.info('Closed database connection');
     })
     .catch(console.error);
 };
 
 // List all customers
-const listAllCustomers = () => {
+const listAllCustomers = (debug = false) => {
   connect(process.env.MONGO_URI)
     .then((connection) => {
       dbConnection = connection;
-      // console.log('Connected to database!');
+      debug && console.log('Connected to database!');
       return Customer.find();
     })
     .then((allCustomers) => {
@@ -128,7 +128,7 @@ const listAllCustomers = () => {
       return dbConnection.disconnect();
     })
     .then(() => {
-      // console.info('Closed database connection');
+      debug && console.info('Closed database connection');
     })
     .catch(console.error);
 };

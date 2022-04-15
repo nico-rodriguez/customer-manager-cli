@@ -25,17 +25,19 @@ Usage: customer-cli [options] [command]
 Customer Management System
 
 Options:
-  -V, --version   output the version number
-  -h, --help      display help for command
+  -V, --version             output the version number
+  -h, --help                display help for command
 
 Commands:
-  add|a           Add a new customer
-  find|f <name>   Find customers by name
-  update|u <_id>  Update a customer
-  remove|r <_id>  Remove a customer
-  list|l          List all customers
-  help [command]  display help for command
+  add|a [options]           Add a new customer
+  find|f [options] <name>   Find customers by name
+  update|u [options] <_id>  Update a customer
+  remove|r [options] <_id>  Remove a customer
+  list|l [options]          List all customers
+  help [command]            display help for command
 ```
+
+All commands have the options `-h|--help` for help and `-d|--debug` for displaying debugging information (printing the status of the database connection).
 
 ### Add a new customer
 
